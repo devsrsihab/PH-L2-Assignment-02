@@ -10,5 +10,4 @@ app.use(cors());
 // application routes
 app.use('/api', ProductRoute);
 
-
 export default app;
