@@ -14,7 +14,7 @@ const VariantsValidationSchema = z.array(
   }),
 );
 
-// product schema
+// product schema validation
 const ProductValidationSchema = z.object({
   name: z.string().min(1, 'name is required').max(20),
   description: z.string().min(1, 'description is required').max(150),
