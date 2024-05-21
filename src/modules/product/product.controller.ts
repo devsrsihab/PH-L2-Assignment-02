@@ -56,7 +56,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: 'Products fetched successfully!',
       data: result,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Data Could Not Found',
@@ -65,13 +65,12 @@ const getSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
-
-// update product 
+// update product
 const updateProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
-    const productData = req.body
-    const zodParseData = ProductValidationSchema.parse(productData)
+    const productData = req.body;
+    const zodParseData = ProductValidationSchema.parse(productData);
     const result = await ProductServices.updateProductToDB(productId, zodParseData);
 
     res.status(200).json({
@@ -79,22 +78,38 @@ const updateProduct = async (req: Request, res: Response) => {
       message: 'Product Updated successfully!',
       data: result,
     });
-    
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Something Went Wrong',
       data: error.message,
     });
   }
-}
+};
 
-
-
+// delete product
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId;
+    await ProductServices.deleteProductFromDB(productId);
+    res.status(200).json({
+      success: true,
+      message: 'Product Deleted successfully!',
+      data: null,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      data: error.message,
+    });
+  }
+};
 
 export const ProductController = {
   createProduct,
   getAllProducts,
   getSingleProduct,
   updateProduct,
+  deleteProduct,
 };
