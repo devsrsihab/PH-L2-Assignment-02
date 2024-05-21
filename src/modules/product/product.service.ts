@@ -16,29 +16,32 @@ const getAllProductsFromDB = async () => {
 };
 
 // get single product
-const getSingleProductFromDB = async (productId:string) =>    {
-   const resutl = await Product.findOne({_id: productId});
-   return resutl;
-}
+const getSingleProductFromDB = async (productId: string) => {
+  const resutl = await Product.findOne({ _id: productId });
+  return resutl;
+};
 
 // update the product data
-const updateProductToDB = async(productId: string, productData: TProduct) => {
-   const result = await Product.findByIdAndUpdate(productId, productData, {new: true, runValidators: true});
-   return result;
+const updateProductToDB = async (productId: string, productData: TProduct) => {
+  const result = await Product.findByIdAndUpdate(productId, productData, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
 
-}
+// search the product by name
+const searchProductFromDB = async (searchTerm: string) => {
+  const regex = new RegExp(searchTerm, 'i');
+  const result = await Product.find({ name: regex });
+  return result;
+};
 
-// delete the product by id 
-const deleteProductFromDB = async(productId:string) => {
+// delete the product by id
+const deleteProductFromDB = async (productId: string) => {
   const result = await Product.findByIdAndDelete(productId);
-  return result
-}
-
-
-
-
-
-
+  return result;
+};
 
 // export all serivces
 export const ProductServices = {
@@ -47,4 +50,5 @@ export const ProductServices = {
   getSingleProductFromDB,
   updateProductToDB,
   deleteProductFromDB,
+  searchProductFromDB,
 };
