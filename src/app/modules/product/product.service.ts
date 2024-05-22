@@ -33,8 +33,15 @@ const getAllProductsFromDB = async (searchTerm?: string) => {
 
 // get single product
 const getSingleProductFromDB = async (productId: string) => {
-  const resutl = await Product.findOne({ _id: productId });
-  return resutl;
+  const result = await Product.findOne({ _id: productId });
+  if (!result) {
+    // eslint-disable-next-line prefer-const
+    let error = new Error('Product not found');
+    error.name = 'productNOtFound';
+    error.message = 'Product not found';
+    throw error;
+  }
+  return result;
 };
 
 // update the product data

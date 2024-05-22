@@ -68,7 +68,10 @@ const getSingleProduct = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message:
+        error.name === 'CastError' && error.kind === 'ObjectId'
+          ? `Invalid product ID : ${error.value}`
+          : error.message,
     });
   }
 };

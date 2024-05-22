@@ -18,6 +18,7 @@ const createOrderToDB = async (orderData: TOrder) => {
     throw error;
   }
 
+  // check product quqntity
   if (product && product.inventory && product.inventory.quantity >= quantity) {
     // decrease product quantity
     product.inventory.quantity -= quantity;
