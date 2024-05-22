@@ -13,7 +13,18 @@ const createProductToDB = async (productData: TProduct) => {
 const getAllProductsFromDB = async (searchTerm?: string) => {
   if (searchTerm) {
     const regex = new RegExp(searchTerm, 'i');
-    const result = await Product.find({ name: regex });
+    const result = await Product.find({
+      $or: [{ name: regex }, { description: regex }, { category: regex }],
+    });
+
+    if (result.length === 0) {
+      // eslint-disable-next-line prefer-const
+      let error = new Error('Product not found');
+      error.name = 'productNOtFound';
+      error.message = 'Product not found';
+      throw error;
+    }
+
     return result;
   }
   const result = await Product.find();
